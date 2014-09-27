@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
 
 	public static final int SERVERPORT = 3000;
 	private static final String SERVER_IP = "192.168.1.41";
-	private static final String SERVER_IP2 = "192.168.1.40";
 	
 	private HashMap<String,String> gRequestBodyValue = new HashMap<String,String>();
 	
@@ -76,7 +75,7 @@ public class MainActivity extends Activity {
 						// SERVER 1
 						HttpClient client = new DefaultHttpClient();
 						HttpPost post = new HttpPost(
-								"http://"+SERVER_IP2+":"+SERVERPORT+"/api/android");
+								"http://"+SERVER_IP+":"+SERVERPORT+"/api/android");
 						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
 								1);
 						for(String s: gRequestBodyValue.keySet())
