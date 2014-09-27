@@ -8,7 +8,8 @@
   "dependencies": {
     "express": "3.4.8",
     "ejs": "*",
-    "mongoose": "~3.8.16"
+    "mongoose": "~3.8.16",
+    "socket.io": "~1.1.0"
   },
   "devDependencies": {
     "node-inspector": "~0.7.4",
