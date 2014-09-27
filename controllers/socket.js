@@ -4,6 +4,10 @@ var dataStorage = require('./dataStorage');
 var chalk = require('chalk');
 var socket;
 
+module.exports.broadcast = function(content){
+  socket.sockets.emit('broadcast', {payload: content});
+}
+
 module.exports.connect = function (io) {
   socket = io;
   io.on('connection', function (socket) {
@@ -30,6 +34,7 @@ module.exports.connect = function (io) {
 
     socket.on('disconnect', function () {
       console.log(chalk.red("\tdisconnected!") );
+      io.reconnect();
     });
   });
 };
