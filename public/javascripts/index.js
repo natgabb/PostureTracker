@@ -1,11 +1,11 @@
 "use strict";
 
-var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io"])
+var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io"]);
 
 /** ---------------------------------------------
  * Routes
  */
-.config(["$routeProvider", "$locationProvider",
+MyApp.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider) {
     $routeProvider
       .when("/", {
@@ -22,13 +22,13 @@ var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "bt
 
     $locationProvider.html5Mode(true);
   }
-])
+]);
 
 
 /** ---------------------------------------------
  * Socket
  */
-.factory('mySocket', ["socketFactory", function (socketFactory) {
+MyApp.factory('mySocket', ["socketFactory", function (socketFactory) {
   return socketFactory();
 }]);
 
@@ -36,17 +36,17 @@ var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "bt
 /** ---------------------------------------------
  * Home Controller
  */
-.controller("homeCtrl", ["$scope", "$routeProvider",
-  function ($scope, $routeProvider) {
+MyApp.controller("homeCtrl", ["$scope",
+  function ($scope) {
     
   }
-])
+]);
 
 /** ---------------------------------------------
  * Instance Controller
  */
-.controller("instanceCtrl", ["$scope", "$routeProvider", "mySocket"
-  function ($scope, $routeProvider, mySocket) {
-
+MyApp.controller("instanceCtrl", ["$scope", "mySocket",
+  function ($scope, mySocket) {
+    mySocket.emit('message', "Gab", "Testing testing 12 12");
   }
 ]);

@@ -49,8 +49,9 @@ app.get('/:id', routes.index);
 
 // socket.io and creating server
 //---------------------------------------------
-var server = http.createServer(app)
-io.listen(server);
+var server = http.createServer(app);
+var websocket = io.listen(server);
+require("./controllers/socket")(websocket);
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
