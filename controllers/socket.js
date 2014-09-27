@@ -1,8 +1,10 @@
 "use strict";
 
 var chalk = require('chalk');
+var socket;
 
-module.exports = function (io) {
+module.exports.connect = function (io) {
+  socket = io;
   io.on('connection', function (socket) {
     console.log(chalk.green("\tconnection established"));
     socket.on('message', function (from, msg) {
@@ -21,4 +23,12 @@ module.exports = function (io) {
       console.log(chalk.red("\tdisconnected!") );
     });
   });
+};
+
+module.exports.socket = function() {
+  var toReturn;
+  if (socket) {
+    toReturn = socket;
+  }
+  return toReturn;
 };

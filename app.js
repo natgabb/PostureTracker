@@ -33,6 +33,11 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
+app.use( function(req,res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 app.use(lessMiddleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -48,14 +53,14 @@ if ('development' == app.get('env')) {
 //---------------------------------------------
 app.get('/', routes.index);
 app.get('/:id', routes.index);
-app.post('/api/android', jsonParser, routes.android);
+app.post('/api/android', routes.android);
 
 
 // socket.io and creating server
 //---------------------------------------------
 var server = http.createServer(app);
 var websocket = io.listen(server);
-require("./controllers/socket")(websocket);
+require("./controllers/socket").connect(websocket);
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
