@@ -1,29 +1,27 @@
 "use strict";
 
 var dataAnalysis = require('./dataAnalysis');
-dataAnalysis.aggregate("data is coming");
+var chalk = require('chalk');
 
 module.exports = function (io) {
   io.on('connection', function (socket) {
-    
-    console.log('something connected ' + socket);
-    
+    console.log(chalk.green("\tconnection established"));
     socket.on('message', function (from, msg) {
-      
-      console.log('...recieved message from', from, 'msg', JSON.stringify(msg));
-      console.log('broadcasting message');
-      console.log('payload is', msg);
-
+ 
+      console.log('\t\trecieved message from', chalk.gray(from), 'msg', chalk.gray(JSON.stringify(msg) ));
+ 
+      console.log('\t\tbroadcasting message');
       io.sockets.emit('broadcast', {
         payload: msg,
         source: from
       });
+      console.log('\t\tbroadcast complete');
 
-
-      
-      console.log('broadcast complete');
+      dataAnalysis.aggregate("data is coming");
     });
 
-    socket.on('disconnect', function() { console.puts("Client has disconnected"); }) ;
+    socket.on('disconnect', function () {
+      console.log(chalk.red("\tdisconnected!") );
+    });
   });
 };
