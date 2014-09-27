@@ -1,0 +1,10 @@
+{
+  "name": "PostureTracker",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.2.25",
+    "bootstrap": "~3.2.0",
+    "angular-route": "~1.2.25",
+    "angular-animate": "~1.2.25"
+  }
+}
