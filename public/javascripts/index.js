@@ -1,11 +1,11 @@
 "use strict";
 
-var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap"]);
+var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io"])
 
 /** ---------------------------------------------
  * Routes
  */
-MyApp.config(["$routeProvider", "$locationProvider",
+.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider) {
     $routeProvider
       .when("/", {
@@ -22,13 +22,21 @@ MyApp.config(["$routeProvider", "$locationProvider",
 
     $locationProvider.html5Mode(true);
   }
-]);
+])
+
+
+/** ---------------------------------------------
+ * Socket
+ */
+.factory('mySocket', ["socketFactory", function (socketFactory) {
+  return socketFactory();
+}]);
 
 
 /** ---------------------------------------------
  * Home Controller
  */
-MyApp.controller("homeCtrl", ["$scope", "$routeProvider",
+.controller("homeCtrl", ["$scope", "$routeProvider",
   function ($scope, $routeProvider) {
     
   }
@@ -37,8 +45,8 @@ MyApp.controller("homeCtrl", ["$scope", "$routeProvider",
 /** ---------------------------------------------
  * Instance Controller
  */
-.controller("instanceCtrl", ["$scope", "$routeProvider",
-  function ($scope, $routeProvider) {
+.controller("instanceCtrl", ["$scope", "$routeProvider", "mySocket"
+  function ($scope, $routeProvider, mySocket) {
 
   }
 ]);
