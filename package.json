@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "ejs": "*"
+    "ejs": "*",
+    "mongoose": "~3.8.16"
   },
   "devDependencies": {
     "node-inspector": "~0.7.4",
