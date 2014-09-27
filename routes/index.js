@@ -16,12 +16,9 @@ exports.android = function(req, res) {
   
   if ( !(body.event && body.source && body.payload ) ) {
     res.send(400);
-  } 
-  else {  
-    console.log("body", body);
-    
-    emit(body.event, body.source, body.payload);
-
+  } else {
+    console.log("Body:",body);
+    emit("broadcast", body.source, JSON.stringify(body.payload) );
     res.send(200);
   }
 };
