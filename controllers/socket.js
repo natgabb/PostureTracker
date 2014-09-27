@@ -4,7 +4,18 @@ var dataStorage = require('./dataStorage');
 var chalk = require('chalk');
 var globalSocket;
 
-module.exports.connect = function (io) {
+function emit(event, source, payload) {
+  // Emit to rest
+  if (globalSocket) {
+    globalSocket.sockets.emit(event, {
+      payload: payload,
+      source: source
+    });
+  }
+}
+
+
+function connect(io) {
   globalSocket = io;
 
   // Connection
@@ -17,19 +28,16 @@ module.exports.connect = function (io) {
       console.log('\t\tbroadcasting message');
       
       // Emit to rest
-      io.sockets.emit('broadcast', {
-        payload: msg,
-        source: from
-      });
+      emit('broadcast', from, msg);
       console.log('\t\tbroadcast complete');
 
-      var fakeData = { timestamp:new Date,
-                       sensor1:{x:1.0, y:2.0, z:3.0}, 
-                       sensor2:{x:1.0, y:2.0, z:3.0},
-                       sensor3:{x:1.0, y:2.0, z:3.0},
-                       sensor4:{x:1.0, y:2.0, z:3.0}};
+      // var fakeData = { timestamp:new Date,
+      //                  sensor1:{x:1.0, y:2.0, z:3.0}, 
+      //                  sensor2:{x:1.0, y:2.0, z:3.0},
+      //                  sensor3:{x:1.0, y:2.0, z:3.0},
+      //                  sensor4:{x:1.0, y:2.0, z:3.0}};
       
-      dataStorage.aggregate(fakeData);
+      // dataStorage.aggregate(fakeData);
     });
 
     socket.on('disconnect', function () {
@@ -37,12 +45,8 @@ module.exports.connect = function (io) {
     });
   });
   // END Connection
-};
+}
 
-module.exports.socket = function() {
-  var toReturn;
-  if (globalSocket) {
-    toReturn = globalSocket;
-  }
-  return toReturn;
-};
+
+module.exports.emit = emit;
+module.exports.connect = connect;
