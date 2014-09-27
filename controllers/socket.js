@@ -40,7 +40,6 @@ function connect(io) {
 
     socket.on('disconnect', function () {
       console.log(chalk.red("\tdisconnected!") );
-      //io.reconnect();
     });
   });
   // END Connection
