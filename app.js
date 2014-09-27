@@ -1,7 +1,5 @@
 
-/**
- * Module dependencies.
- */
+// Module dependencies
 //---------------------------------------------
 var lessMiddleware = require('less-middleware');
 var express = require('express');
