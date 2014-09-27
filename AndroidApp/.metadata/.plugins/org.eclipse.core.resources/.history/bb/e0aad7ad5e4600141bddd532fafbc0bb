@@ -1,0 +1,5 @@
+package com.wearhacks.posturetracker;
+
+public class ServerThread {
+
+}
