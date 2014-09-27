@@ -56,9 +56,9 @@ public class MainActivity extends Activity {
 			// Setting request data
 			String accelsJson = "[";
 			for (int i = 0; i < accels.length; i++) {
+				accelsJson += accels[i];
 				if (i > 0)
 					accelsJson += ",";
-				accelsJson += accels[i];
 			}
 			accelsJson += "]";
 			gRequestBodyValue.put("event", "message");
