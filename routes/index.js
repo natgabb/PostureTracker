@@ -1,6 +1,7 @@
 "use strict";
 
-var socket = require("../controllers/socket");
+var emit = require("./../controllers/socket").emit;
+
 
 exports.index = function(req, res){
   res.render('index', { title: 'PostureTracker' });
@@ -15,8 +16,12 @@ exports.android = function(req, res) {
   
   if ( !(body.event && body.source && body.payload ) ) {
     res.send(400);
-  } else {
+  } 
+  else {  
     console.log("body", body);
+    
+    emit(body.event, body.source, body.payload);
+
     res.send(200);
   }
 };
