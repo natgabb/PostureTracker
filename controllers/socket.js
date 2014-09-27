@@ -2,34 +2,40 @@
 
 var dataStorage = require('./dataStorage');
 var chalk = require('chalk');
-var socket;
+var globalSocket;
 
-module.exports.broadcast = function(content){
-  socket.sockets.emit('broadcast', {payload: content});
+function emit(event, source, payload) {
+  // Emit to rest
+  if (globalSocket) {
+    globalSocket.sockets.emit(event, {
+      payload: payload,
+      source: source
+    });
+  }
 }
 
-module.exports.connect = function (io) {
-  socket = io;
+function connect(io) {
+  globalSocket = io;
+
   io.on('connection', function (socket) {
     console.log(chalk.green("\tconnection established"));
     socket.on('message', function (from, msg) {
- 
-      console.log('\t\trecieved message from', chalk.gray(from), 'msg', chalk.gray(JSON.stringify(msg) ));
- 
+
+      // Output
+      console.log('\t\trecieved message from', chalk.gray(from), 'msg', chalk.gray(JSON.stringify(msg) )); 
       console.log('\t\tbroadcasting message');
-      io.sockets.emit('broadcast', {
-        payload: msg,
-        source: from
-      });
+      
+      // Emit to rest
+      emit('broadcast', from, msg);
       console.log('\t\tbroadcast complete');
 
-      var fakeData = { timestamp:new Date,
-                       sensor1:{x:1.0, y:2.0, z:3.0}, 
-                       sensor2:{x:1.0, y:2.0, z:3.0},
-                       sensor3:{x:1.0, y:2.0, z:3.0},
-                       sensor4:{x:1.0, y:2.0, z:3.0}};
+      // var fakeData = { timestamp:new Date,
+      //                  sensor1:{x:1.0, y:2.0, z:3.0}, 
+      //                  sensor2:{x:1.0, y:2.0, z:3.0},
+      //                  sensor3:{x:1.0, y:2.0, z:3.0},
+      //                  sensor4:{x:1.0, y:2.0, z:3.0}};
       
-      dataStorage.aggregate(fakeData);
+      // dataStorage.aggregate(fakeData);
     });
 
     socket.on('disconnect', function () {
@@ -37,12 +43,8 @@ module.exports.connect = function (io) {
       io.reconnect();
     });
   });
-};
+  // END Connection
+}
 
-module.exports.socket = function() {
-  var toReturn;
-  if (socket) {
-    toReturn = socket;
-  }
-  return toReturn;
-};
+module.exports.emit = emit;
+module.exports.connect = connect;

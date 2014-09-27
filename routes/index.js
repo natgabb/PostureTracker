@@ -1,6 +1,6 @@
 "use strict";
 
-var socket = require("../controllers/socket");
+var emit = require("./../controllers/socket").emit;
 
 
 exports.index = function(req, res){
@@ -19,12 +19,9 @@ exports.android = function(req, res) {
   } 
   else {  
     console.log("body", body);
-
-    socket.emit('broadcast', {
-        payload: msg,
-        source: from
-      });
     
+    emit(body.event, body.source, body.payload);
+
     res.send(200);
   }
 };
