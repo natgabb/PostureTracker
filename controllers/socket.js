@@ -2,17 +2,21 @@
 
 var dataStorage = require('./dataStorage');
 var chalk = require('chalk');
-var socket;
+var globalSocket;
 
 module.exports.connect = function (io) {
-  socket = io;
+  globalSocket = io;
+
+  // Connection
   io.on('connection', function (socket) {
     console.log(chalk.green("\tconnection established"));
     socket.on('message', function (from, msg) {
- 
-      console.log('\t\trecieved message from', chalk.gray(from), 'msg', chalk.gray(JSON.stringify(msg) ));
- 
+
+      // Output
+      console.log('\t\trecieved message from', chalk.gray(from), 'msg', chalk.gray(JSON.stringify(msg) )); 
       console.log('\t\tbroadcasting message');
+      
+      // Emit to rest
       io.sockets.emit('broadcast', {
         payload: msg,
         source: from
@@ -32,12 +36,13 @@ module.exports.connect = function (io) {
       console.log(chalk.red("\tdisconnected!") );
     });
   });
+  // END Connection
 };
 
 module.exports.socket = function() {
   var toReturn;
-  if (socket) {
-    toReturn = socket;
+  if (globalSocket) {
+    toReturn = globalSocket;
   }
   return toReturn;
 };
