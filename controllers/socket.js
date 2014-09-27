@@ -1,6 +1,6 @@
 "use strict";
 
-var dataAnalysis = require('./dataAnalysis');
+var dataStorage = require('./dataStorage');
 var chalk = require('chalk');
 
 module.exports = function (io) {
@@ -17,7 +17,13 @@ module.exports = function (io) {
       });
       console.log('\t\tbroadcast complete');
 
-      dataAnalysis.aggregate("data is coming");
+      var fakeData = { timestamp:new Date,
+                       sensor1:{x:1.0, y:2.0, z:3.0}, 
+                       sensor2:{x:1.0, y:2.0, z:3.0},
+                       sensor3:{x:1.0, y:2.0, z:3.0},
+                       sensor4:{x:1.0, y:2.0, z:3.0}};
+      
+      dataStorage.aggregate(fakeData);
     });
 
     socket.on('disconnect', function () {

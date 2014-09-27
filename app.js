@@ -18,7 +18,6 @@ mongoose.connection.on('error', function() {
   console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
 });
 
-
 // all environments
 //---------------------------------------------
 app.set('port', process.env.PORT || 3000);
