@@ -14,11 +14,9 @@ function emit(event, source, payload) {
   }
 }
 
-
 function connect(io) {
   globalSocket = io;
 
-  // Connection
   io.on('connection', function (socket) {
     console.log(chalk.green("\tconnection established"));
     socket.on('message', function (from, msg) {
@@ -42,11 +40,11 @@ function connect(io) {
 
     socket.on('disconnect', function () {
       console.log(chalk.red("\tdisconnected!") );
+      io.reconnect();
     });
   });
   // END Connection
 }
-
 
 module.exports.emit = emit;
 module.exports.connect = connect;

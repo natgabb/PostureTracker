@@ -1,23 +1,17 @@
 package com.wearhacks.posturetracker;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -28,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,10 +32,10 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	public static final int SERVERPORT = 3000;
-	private static final String SERVER_IP = "192.168.1.41";
-	
-	private HashMap<String,String> gRequestBodyValue = new HashMap<String,String>();
-	
+	private static final String[] SERVER_IPS = { "192.168.1.41", "192.168.1.40" };
+	private Date timeOfLastRequestToServer = null;
+	private HashMap<String, String> gRequestBodyValue = new HashMap<String, String>();
+
 	private final BroadcastReceiver dataReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -52,38 +45,68 @@ public class MainActivity extends Activity {
 			long time = intent.getLongExtra(BT.EXTRA_TIME, 0);
 			TextView dataText = (TextView) findViewById(R.id.text_data);
 			dataText.setText("" + time + "\n" + Arrays.toString(accels));
-
+			if (timeOfLastRequestToServer == null)
+				timeOfLastRequestToServer = new Date();
+			else {
+				if (new Date().getTime() - timeOfLastRequestToServer.getTime() < 5000)
+					return;
+				timeOfLastRequestToServer = new Date();
+			}
 			// Setting request data
 			String accelsJson = "[";
+			String[] keys = { "x", "y", "z" };
+			int keysIndex = 0;
 			for (int i = 0; i < accels.length; i++) {
-				if (i > 0)
+				if (keysIndex == 0) {
+					accelsJson += "[\"" + keys[keysIndex] + "\":\"" + accels[i]
+							+ "\"";
+				} else {
 					accelsJson += ",";
-				accelsJson += accels[i];
+					if (keysIndex == 1)
+						accelsJson += "\"" + keys[keysIndex] + "\":\""
+								+ accels[i] + "\"";
+					else if (keysIndex == 2) {
+						accelsJson += "\"" + keys[keysIndex] + "\":\""
+								+ accels[i] + "\"]";
+						if (i < accels.length - 1)
+							accelsJson += ",";
+					}
+				}
+				keysIndex = (keysIndex + 1) % 3;
 			}
 			accelsJson += "]";
 			gRequestBodyValue.put("event", "message");
 			gRequestBodyValue.put("source", "PostureTrackerApp");
-			gRequestBodyValue.put("payload", "{\"time\": \""+ time + "\",\"accels\":" + accelsJson + "}");
-			
+			gRequestBodyValue.put("payload", "{\"time\":\"" + time
+					+ "\",\"accels\":" + accelsJson + "}");
+
 			// Doing http request in separate thread
-			// Sending to server
-			new Thread(new Runnable(){
+			// Sending to server(s)
+			new Thread(new Runnable() {
 				@Override
 				public void run() {
+					HashMap<String,String> requestBodyValue = gRequestBodyValue;
+					Log.i("PostureTracker", "Sending: " + requestBodyValue);
+					for (String serverIP : SERVER_IPS)
+						sendToServer("http://" + serverIP + ":" + SERVERPORT + "/api/android",requestBodyValue);
+				}
+
+				private void sendToServer(String serverUrl,HashMap<String,String> requestBodyValue){
 					try {
 						HttpClient client = new DefaultHttpClient();
-						HttpPost post = new HttpPost(
-								"http://"+SERVER_IP+":"+SERVERPORT+"/api/android");
+						HttpPost post = new HttpPost(serverUrl);
 						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
 								1);
-						for(String s: gRequestBodyValue.keySet())
-							nameValuePairs.add(new BasicNameValuePair(s,gRequestBodyValue.get(s)));
+						for (String s : requestBodyValue.keySet())
+							nameValuePairs.add(new BasicNameValuePair(s,
+									requestBodyValue.get(s)));
 
 						post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 						HttpResponse response = client.execute(post);
-						BufferedReader rd = new BufferedReader(new InputStreamReader(
-								response.getEntity().getContent()));
+						BufferedReader rd = new BufferedReader(
+								new InputStreamReader(response.getEntity()
+										.getContent()));
 						String line = "";
 						while ((line = rd.readLine()) != null) {
 							System.out.println(line);
@@ -91,7 +114,7 @@ public class MainActivity extends Activity {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				}
 			}).start();
 			// end sending to server

@@ -2,6 +2,7 @@
 
 var emit = require("./../controllers/socket").emit;
 
+
 exports.index = function(req, res){
   res.render('index', { title: 'PostureTracker' });
 };
@@ -16,7 +17,7 @@ exports.android = function(req, res) {
   if ( !(body.event && body.source && body.payload ) ) {
     res.send(400);
   } else {
-    console.log(body);
+    console.log("Body:",body);
     emit("broadcast", body.source, JSON.stringify(body.payload) );
     res.send(200);
   }
