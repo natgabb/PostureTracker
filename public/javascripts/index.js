@@ -2,7 +2,7 @@
 
 var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap"]);
 
-/**
+/** ---------------------------------------------
  * Routes
  */
 MyApp.config(["$routeProvider", "$locationProvider",
@@ -25,7 +25,7 @@ MyApp.config(["$routeProvider", "$locationProvider",
 ]);
 
 
-/**
+/** ---------------------------------------------
  * Home Controller
  */
 MyApp.controller("homeCtrl", ["$scope", "$routeProvider",
@@ -34,7 +34,7 @@ MyApp.controller("homeCtrl", ["$scope", "$routeProvider",
   }
 ])
 
-/**
+/** ---------------------------------------------
  * Instance Controller
  */
 .controller("instanceCtrl", ["$scope", "$routeProvider",

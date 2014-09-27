@@ -8,6 +8,16 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var app = express();
+var lessMiddleware = require('less-middleware');
+
+
+// mongoose
+//---------------------------------------------
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/postureTracker');
+mongoose.connection.on('error', function() {
+  console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
+});
 
 
 // all environments
@@ -21,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
+app.use(lessMiddleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
