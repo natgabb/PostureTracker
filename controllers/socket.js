@@ -12,6 +12,8 @@ function emit(event, source, payload) {
       source: source
     });
   }
+
+  dataStorage.aggregate(payload);
 }
 
 function connect(io) {
@@ -29,13 +31,6 @@ function connect(io) {
       emit('broadcast', from, msg);
       console.log('\t\tbroadcast complete');
 
-      // var fakeData = { timestamp:new Date,
-      //                  sensor1:{x:1.0, y:2.0, z:3.0}, 
-      //                  sensor2:{x:1.0, y:2.0, z:3.0},
-      //                  sensor3:{x:1.0, y:2.0, z:3.0},
-      //                  sensor4:{x:1.0, y:2.0, z:3.0}};
-      
-      // dataStorage.aggregate(fakeData);
     });
 
     socket.on('disconnect', function () {
