@@ -47,10 +47,10 @@ MyApp.controller("homeCtrl", ["$scope",
  */
 MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
-    $scope.messages = [];
+    $scope.data = {};
     mySocket.on('broadcast', function(data) {
       data.payload = JSON.parse(data.payload);
-      $scope.messages.push(data);
+      $scope.data = data;
     });
   }
 ]);
