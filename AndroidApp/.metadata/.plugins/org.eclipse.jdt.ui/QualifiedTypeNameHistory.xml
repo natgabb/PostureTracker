@@ -20,4 +20,6 @@
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.net.HttpURLConnection"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="org.json.JSONException"/>
 </qualifiedTypeNameHistroy>
