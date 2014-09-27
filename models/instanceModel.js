@@ -2,7 +2,7 @@
 
 var mongoose = require("mongoose");
 var instanceSchema = mongoose.Schema({
-  // TODO
+  
 });
 
 instanceSchema.statics.customFunctionName = function() {

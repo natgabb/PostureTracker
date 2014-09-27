@@ -1,7 +1,42 @@
 <p>Hello, this is a partial</p>
 <ul>
-  <li ng-repeat="message in messages track by $index">
+  <li class="message" ng-repeat="message in messages track by $index">
     <b>From:</b> {{ message.source }} <br />
-    <b>Message:</b> {{ message.payload }}
+
+    <div class="sensor">
+      Sensor1
+      <ul>
+        <li>x: {{ message.payload.sensor1.x }}</li>
+        <li>y: {{ message.payload.sensor1.y }}</li>
+        <li>z: {{ message.payload.sensor1.z }}</li>
+      </ul>
+    </div>
+
+    <div class="sensor">
+      Sensor2
+      <ul>
+        <li>x: {{ message.payload.sensor2.x }}</li>
+        <li>y: {{ message.payload.sensor2.y }}</li>
+        <li>z: {{ message.payload.sensor2.z }}</li>
+      </ul>
+    </div>
+
+    <div class="sensor">
+      Sensor3
+      <ul>
+        <li>x: {{ message.payload.sensor3.x }}</li>
+        <li>y: {{ message.payload.sensor3.y }}</li>
+        <li>z: {{ message.payload.sensor3.z }}</li>
+      </ul>
+    </div>
+
+    <div class="sensor">
+      Sensor4
+      <ul>
+        <li>x: {{ message.payload.sensor4.x }}</li>
+        <li>y: {{ message.payload.sensor4.y }}</li>
+        <li>z: {{ message.payload.sensor4.z }}</li>
+      </ul>
+    </div>
   </li>
 </ul>

@@ -1,7 +1,9 @@
+"use strict";
 
 // Module dependencies
 //---------------------------------------------
 var lessMiddleware = require('less-middleware');
+var bodyParser = require('body-parser');
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
@@ -9,6 +11,7 @@ var path = require('path');
 var app = express();
 var io = require("socket.io");
 
+var jsonParser = bodyParser.json();
 
 // mongoose
 //---------------------------------------------
@@ -45,6 +48,7 @@ if ('development' == app.get('env')) {
 //---------------------------------------------
 app.get('/', routes.index);
 app.get('/:id', routes.index);
+app.post('/api/android', jsonParser, routes.android);
 
 
 // socket.io and creating server

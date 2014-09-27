@@ -11,7 +11,8 @@
     "mongoose": "~3.8.16",
     "socket.io": "~1.1.0",
     "less-middleware": "~1.0.4",
-    "chalk": "~0.5.1"
+    "chalk": "~0.5.1",
+    "body-parser": "~1.9.0"
   },
   "devDependencies": {
     "node-inspector": "~0.7.4",
