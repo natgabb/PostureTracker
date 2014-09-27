@@ -17,7 +17,7 @@ exports.android = function(req, res) {
     res.send(400);
   } else {
     console.log(body);
-    emit(body.event, body.source, body.payload);
+    emit("broadcast", body.source, JSON.stringify(body.payload) );
     res.send(200);
   }
 };
