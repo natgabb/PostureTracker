@@ -32,7 +32,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	public static final int SERVERPORT = 3000;
-	private static final String[] SERVER_IPS = { "192.168.1.41", "192.168.1.40","192.168.1.185" };
+	private static final String[] SERVER_IPS = { "192.168.1.41", "192.168.1.40" };
 	private Date timeOfLastRequestToServer = null;
 	private HashMap<String, String> gRequestBodyValue = new HashMap<String, String>();
 
@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 			int keysIndex = 0;
 			for (int i = 0; i < accels.length; i++) {
 				if (keysIndex == 0) {
-					accelsJson += "{\"" + keys[keysIndex] + "\":\"" + accels[i]
+					accelsJson += "[\"" + keys[keysIndex] + "\":\"" + accels[i]
 							+ "\"";
 				} else {
 					accelsJson += ",";
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 								+ accels[i] + "\"";
 					else if (keysIndex == 2) {
 						accelsJson += "\"" + keys[keysIndex] + "\":\""
-								+ accels[i] + "\"}";
+								+ accels[i] + "\"]";
 						if (i < accels.length - 1)
 							accelsJson += ",";
 					}

@@ -1,16 +1,11 @@
 <p>Hello, this is a partial</p>
-<ul>
-  <li class="message" ng-repeat="message in messages track by $index">
-    <b>From:</b> {{ message.source }} <br />
-
-    <div class="sensor">
-      <ul>
-        <li ng-repeat="accel in message.payload.accels track by $index">
-          x:{{ accel.x }} <br />
-          y:{{ accel.x }} <br />
-          z:{{ accel.x }} <br />
-        </li>
-      </ul>
-    </div>
-  </li>
-</ul>
+<p>
+  <b>From:</b> {{ data.source }} <br />
+  <ul>
+    <li class="sensor" ng-repeat="accel in data.payload.accels track by $index">
+      x:{{ accel.x }} <br />
+      y:{{ accel.x }} <br />
+      z:{{ accel.x }} <br />
+    </li>
+  </ul>
+</p>
