@@ -10,7 +10,8 @@
     "ejs": "*",
     "mongoose": "~3.8.16",
     "socket.io": "~1.1.0",
-    "less-middleware": "~1.0.4"
+    "less-middleware": "~1.0.4",
+    "chalk": "~0.5.1"
   },
   "devDependencies": {
     "node-inspector": "~0.7.4",

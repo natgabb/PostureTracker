@@ -1,1 +1,7 @@
 <p>Hello, this is a partial</p>
+<ul>
+  <li ng-repeat="message in messages track by $index">
+    <b>From:</b> {{ message.source }} <br />
+    <b>Message:</b> {{ message.payload }}
+  </li>
+</ul>

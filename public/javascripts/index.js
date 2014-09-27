@@ -47,6 +47,10 @@ MyApp.controller("homeCtrl", ["$scope",
  */
 MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
+    $scope.messages = [];
     mySocket.emit('message', "Gab", "Testing testing 12 12");
+    mySocket.on('broadcast', function(data) {
+      $scope.messages.push(data);
+    });
   }
 ]);
