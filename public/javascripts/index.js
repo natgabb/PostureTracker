@@ -26,15 +26,10 @@ MyApp.config(["$routeProvider", "$locationProvider",
 
 
 MyApp.directive('model', [function(){
-  var ar = 0.1
-    , s1r = 0.1
-    , s2r = 0.1
-    , s3r = 0.1
-    , s4r = 0.1;
-
   return {
       restrict: "E",
       link: function(scope, element, attrs) {
+			var oldYRotation = 0.1;
           function display() {
             //create de scene
             var scene = new THREE.Scene();
@@ -143,24 +138,26 @@ MyApp.directive('model', [function(){
             line_sensor2.rotation.x = 0.5;
             line_sensor3.rotation.x = 0.5;
             line_sensor4.rotation.x = 0.5;
+			
+            //Sets the Y rotation to the previous vector's rotation
+            line_axis.rotation.y = oldYRotation;
+            line_sensor1.rotation.y = oldYRotation;
+            line_sensor2.rotation.y = oldYRotation;
+            line_sensor3.rotation.y = oldYRotation;
+            line_sensor4.rotation.y = oldYRotation;
 
             //render the scene
             var render = function () {
               requestAnimationFrame(render);
 
               //Add rotation
-              ar = line_axis.rotation.y + 0.01;
-              s1r = line_sensor1.rotation.y + 0.01;
-              s2r = line_sensor2.rotation.y + 0.01;
-              s3r = line_sensor3.rotation.y + 0.01;
-              s4r = line_sensor4.rotation.y + 0.01;
-
-              line_axis.rotation.y = ar;
-              line_sensor1.rotation.y = s1r;
-              line_sensor2.rotation.y = s2r;
-              line_sensor3.rotation.y = s3r;
-              line_sensor4.rotation.y = s4r;
-
+              line_axis.rotation.y +=0.05;
+              line_sensor1.rotation.y +=0.05;
+              line_sensor2.rotation.y +=0.05;
+              line_sensor3.rotation.y +=0.05;
+              line_sensor4.rotation.y +=0.05;
+			  oldYRotation = line_axis.rotation.y;
+			  
               renderer.render(scene, camera);
             };
             render();

@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 			if (timeOfLastRequestToServer == null)
 				timeOfLastRequestToServer = new Date();
 			else {
-				if (new Date().getTime() - timeOfLastRequestToServer.getTime() < 1000)
+				if (new Date().getTime() - timeOfLastRequestToServer.getTime() < 1500)
 					return;
 				timeOfLastRequestToServer = new Date();
 			}
