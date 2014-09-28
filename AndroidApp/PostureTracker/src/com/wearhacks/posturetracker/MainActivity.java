@@ -1,6 +1,7 @@
 package com.wearhacks.posturetracker;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +41,12 @@ public class MainActivity extends Activity {
 	private Date timeOfLastRequestToServer = null;
 	private HashMap<String, String> gRequestBodyValue = new HashMap<String, String>();
 	
-	private static final double[] PERFECT_ACCELS_VALUES = {-0.2341552734375, -0.9552734375, 0.2481689453125, -0.1943603515625, -0.911591796875, 0.36657226562500006, -0.1851171875, -0.82001953125, 0.5460498046874998, -0.107548828125, -0.7589892578125, 0.6297607421875003};
+	private static double[] PERFECT_ACCELS_VALUES = {-0.28153320312499996, -0.9463525390625, 0.2597509765625, -0.28139160156250004, -0.9212109375, 0.264326171875, -0.1312109375, -0.806953125, 0.5630566406250002, 0.0031933593750000005, -0.91859375, 0.3920751953125};
 	private static final double WORST_VARIATION  = 0.3;
 	
 	private final BroadcastReceiver dataReceiver = new BroadcastReceiver() {
 		private int countVals = 0;
+		final MediaPlayer mp = new MediaPlayer();
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.v("PostureTracker",
@@ -60,6 +65,7 @@ public class MainActivity extends Activity {
 					PERFECT_ACCELS_VALUES[i] = ((PERFECT_ACCELS_VALUES[i] * countVals) + accels[i])/(countVals+1); 
 				}
 				countVals++;
+				return;
 			}
 			else{
 				String str = "[ ";
@@ -98,6 +104,12 @@ public class MainActivity extends Activity {
 			{
 				//container.setBackgroundColor(getResources().getColor(R.color.red));
 				container.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_bad));
+				if(ratingsAverage < 20){ // VERY BAD >:(
+					Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+					 // Vibrate for 500 milliseconds
+					 v.vibrate(500);
+					 //playNoise();
+				}
 			}else{ // NEUTRAL
 
 				//container.setBackgroundColor(getResources().getColor(R.color.yellow));
@@ -180,6 +192,27 @@ public class MainActivity extends Activity {
 				}
 			}).start();
 			// end sending to server
+		}
+	
+
+		private void playNoise(){
+	        if(mp.isPlaying())
+	        {  
+	            mp.stop();
+	            mp.reset();
+	        } 
+	        try {
+
+	            AssetFileDescriptor afd;
+	            afd = getAssets().openFd("air_horn.mp3");
+	            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+	            mp.prepare();
+	            mp.start();
+	        } catch (IllegalStateException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
 		}
 	};
 
