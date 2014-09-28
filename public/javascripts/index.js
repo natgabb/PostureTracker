@@ -1,6 +1,6 @@
 "use strict";
 
-var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io"]);
+var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io", "nvd3ChartDirectives"]);
 
 /** ---------------------------------------------
  * Routes
@@ -64,11 +64,11 @@ MyApp.directive('model', [function(){
             //************************************************************
             //  Define geometries
             //************************************************************
-            var geometry_axis = new THREE.Geometry();
-            var geometry_sensor1 = new THREE.Geometry();
-            var geometry_sensor2 = new THREE.Geometry();
-            var geometry_sensor3 = new THREE.Geometry();
-            var geometry_sensor4 = new THREE.Geometry();
+            var geometry_axis = new THREE.Geometry()
+              , geometry_sensor1 = new THREE.Geometry()
+              , geometry_sensor2 = new THREE.Geometry()
+              , geometry_sensor3 = new THREE.Geometry()
+              , geometry_sensor4 = new THREE.Geometry();
             
             //Axis
             geometry_axis.vertices.push(
@@ -84,10 +84,10 @@ MyApp.directive('model', [function(){
               ,new THREE.Vector3( 2.0, 0.0, 0.0 )
             );
 
-            var s0 = scope.data.payload.accels[0];
-            var s1 = scope.data.payload.accels[1];
-            var s2 = scope.data.payload.accels[2];
-            var s3 = scope.data.payload.accels[3];
+            var s0 = scope.data.payload.accels[0]
+              , s1 = scope.data.payload.accels[1]
+              , s2 = scope.data.payload.accels[2]
+              , s3 = scope.data.payload.accels[3];
 
 
             var startx = 0.0
@@ -144,11 +144,11 @@ MyApp.directive('model', [function(){
             //************************************************************
             //  Rendering
             //************************************************************
-            var line_axis = new THREE.Line( geometry_axis, material_axis );
-            var line_sensor1 = new THREE.Line( geometry_sensor1, material_sensor1 );
-            var line_sensor2 = new THREE.Line( geometry_sensor2, material_sensor2 );
-            var line_sensor3 = new THREE.Line( geometry_sensor3, material_sensor3 );
-            var line_sensor4 = new THREE.Line( geometry_sensor4, material_sensor4 );
+            var line_axis = new THREE.Line( geometry_axis, material_axis )
+              , line_sensor1 = new THREE.Line( geometry_sensor1, material_sensor1 )
+              , line_sensor2 = new THREE.Line( geometry_sensor2, material_sensor2 )
+              , line_sensor3 = new THREE.Line( geometry_sensor3, material_sensor3 )
+              , line_sensor4 = new THREE.Line( geometry_sensor4, material_sensor4 );
 
             scene.add( line_axis );
             scene.add( line_sensor1 );
@@ -231,8 +231,15 @@ MyApp.controller("homeCtrl", ["$scope",
 MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
     $scope.data = {};
+    $scope.exampleData = [{
+        "key": "Series 1",
+        "values": []
+    }];
+
     mySocket.on('broadcast', function(data) {
       data.payload = JSON.parse(data.payload);
+      var temp = data.payload.accels[0];
+      $scope.exampleData[0]["values"].push([temp.x, temp.y]);
       $scope.data = data;
     });
   }

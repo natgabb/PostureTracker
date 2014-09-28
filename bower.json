@@ -8,6 +8,8 @@
     "angular-bootstrap": "~0.11.2",
     "angular-socket-io": "~0.6.0",
     "socket.io-client": "~1.1.0",
-    "angularD3": "~0.0.21"
+    "angularD3": "~0.0.21",
+    "nvd3": "~1.1.15-beta",
+    "angularjs-nvd3-directives": "~0.0.7"
   }
 }
