@@ -26,11 +26,11 @@ MyApp.config(["$routeProvider", "$locationProvider",
 
 
 MyApp.directive('model', [function(){
-  var ar = 0.5
-    , s1r = 0.5
-    , s2r = 0.5
-    , s3r = 0.5
-    , s4r = 0.5;
+  var ar = 0.1
+    , s1r = 0.1
+    , s2r = 0.1
+    , s3r = 0.1
+    , s4r = 0.1;
 
   return {
       restrict: "E",
@@ -138,22 +138,22 @@ MyApp.directive('model', [function(){
             camera.position.z = 5;
 
             //Add camera tilt
-            line_axis.rotation.x = ar;
-            line_sensor1.rotation.x = s1r;
-            line_sensor2.rotation.x = s2r;
-            line_sensor3.rotation.x = s3r;
-            line_sensor4.rotation.x = s4r;
+            line_axis.rotation.x = 0.5;
+            line_sensor1.rotation.x = 0.5;
+            line_sensor2.rotation.x = 0.5;
+            line_sensor3.rotation.x = 0.5;
+            line_sensor4.rotation.x = 0.5;
 
             //render the scene
             var render = function () {
               requestAnimationFrame(render);
 
               //Add rotation
-              ar += 0.01;
-              s1r += 0.01;
-              s2r += 0.01;
-              s3r += 0.01;
-              s4r += 0.01;
+              ar = line_axis.rotation.y + 0.01;
+              s1r = line_sensor1.rotation.y + 0.01;
+              s2r = line_sensor2.rotation.y + 0.01;
+              s3r = line_sensor3.rotation.y + 0.01;
+              s4r = line_sensor4.rotation.y + 0.01;
 
               line_axis.rotation.y = ar;
               line_sensor1.rotation.y = s1r;
