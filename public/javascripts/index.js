@@ -1,6 +1,6 @@
 "use strict";
 
-var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io", "nvd3ChartDirectives"]);
+var MyApp = angular.module("MyApp", ["ngRoute", "ngAnimate", "ui.bootstrap", "btford.socket-io", "nvd3ChartDirectives", "angularMoment"]);
 
 /** ---------------------------------------------
  * Routes
@@ -26,6 +26,7 @@ MyApp.config(["$routeProvider", "$locationProvider",
 
 
 MyApp.directive('model', [function(){
+  var renderer = new THREE.WebGLRenderer();
   return {
       restrict: "E",
       link: function(scope, element, attrs) {
@@ -34,8 +35,7 @@ MyApp.directive('model', [function(){
             //create de scene
             var scene = new THREE.Scene();
             var camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-
-            var renderer = new THREE.WebGLRenderer();
+            
             renderer.setSize(400, 300);
             element[0].innerHTML = "";
             element[0].appendChild(renderer.domElement);
@@ -99,8 +99,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 1
             geometry_sensor1.vertices.push(
-              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -111,8 +111,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 2
             geometry_sensor2.vertices.push(
-              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -123,8 +123,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 3
             geometry_sensor3.vertices.push(
-              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -135,8 +135,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 4
             geometry_sensor4.vertices.push(
-              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
             );
             //****************************** End: Define geometries
 
@@ -231,16 +231,36 @@ MyApp.controller("homeCtrl", ["$scope",
 MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
     $scope.data = {};
-    // $scope.exampleData = [{
-    //     "key": "Series 1",
-    //     "values": []
-    // }];
+    $scope.exampleData = [{
+        "key": "Series 1",
+        "values": []
+    }];
+    $scope.average = function(){
+      var ratings = $scope.exampleData[0]["values"];
+      if (ratings.length) {
+        var sum = 0;
+        for(var i=0; i < ratings.length; ++i) {
+          sum += parseFloat(ratings[i][1]);
+        }
+        return Math.round(sum / ratings.length);
+      }
+    };
+
+    $scope.xAxisTickFormatFunction = function(){
+        return function(d){
+            return d3.time.format('%Hh %Mm %Ss')(moment.unix(d).toDate());
+        }
+    };
 
     mySocket.on('broadcast', function(data) {
       data.payload = JSON.parse(data.payload);
-      //var temp = data.payload.accels[0];
-      //$scope.exampleData[0]["values"].push([temp.x, temp.y]);
       $scope.data = data;
+
+      // update graph
+      var rating = data.payload.rating;
+      var timeline = moment().unix();
+      $scope.exampleData[0]["values"].push([ timeline, rating ]);
+      nv.graphs[0].update();
     });
   }
 ]);

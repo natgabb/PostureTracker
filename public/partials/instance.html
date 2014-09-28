@@ -1,26 +1,78 @@
-<div class="left">
-  
-<!--   <nvd3-line-chart class="graph"
-    data="exampleData"
-    showXAxis="true"
-    showYAxis="true">
-  </nvd3-line-chart>
-</div> -->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+      &nbsp;
+  </div>
+</div>
 
-<model class="right"
-  accela="data.payload.accels[0]" 
-  accelb="data.payload.accels[1]" 
-  accelc="data.payload.accels[2]"
-  acceld="data.payload.accels[3]">
-</model>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <p align="center"><img src="stylesheets/logosimple.png" /><br /><br /></p>
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#"><img src="/stylesheets/tracking.png">&nbsp;&nbsp;&nbsp;&nbsp;Tracking</a></li>
+        <li><a href="#"><img src="/stylesheets/archives.png">&nbsp;&nbsp;&nbsp;&nbsp;Archives</a></li>
+        <li><a href="#"><img src="/stylesheets/score.png">&nbsp;&nbsp;&nbsp;&nbsp;Scoreboard</a></li>
+        <li><a href="#"><img src="/stylesheets/help.png">&nbsp;&nbsp;&nbsp;&nbsp;Help</a></li>
+      </ul>
+    </div>
 
-<p>
-    <b>From:</b> {{ data.source }} <br />
-    <ul>
-      <li class="sensor" ng-repeat="accel in data.payload.accels track by $index">
-        x:{{ accel.x }} <br />
-        y:{{ accel.y }} <br />
-        z:{{ accel.z }}
-      </li>
-    </ul>
-  </p>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <h1 class="page-header">Posture Tracking</h1>
+
+      <h2 class="sub-header">Profile</h2>
+      <div class="row placeholders">
+        <div class="col-sm-6 placeholder">
+          <h4 style="text-align:left;">Name</h4>
+          <p style="text-align:left;">Alexander Lynn</p>
+          <h4 style="text-align:left;">Birthday</h4>
+          <p style="text-align:left;">1985-04-03</p>
+          <h4 style="text-align:left;">Member since</h4>
+          <p style="text-align:left;">2014-09-27</p>
+          <h4 style="text-align:left;">Overall Performance</h4>
+          <p style="text-align:left;">{{ average() }}% good posture</p>
+        </div>
+        <div class="col-sm-6 placeholder">
+
+          <!-- Spine  -->
+          <h4 style="text-align:left;">Spine View</h4>
+          <div style="text-align:left;">
+
+            <model class="right"
+              accela="data.payload.accels[0]" 
+              accelb="data.payload.accels[1]" 
+              accelc="data.payload.accels[2]"
+              acceld="data.payload.accels[3]">
+            </model>
+
+          </div>
+          <!-- END Spine -->
+        </div>
+      </div>
+
+      <h2 class="sub-header">Timeline</h2>
+      <div class="row placeholders">
+        <div class="col-sm-12 placeholder">
+          <h4 style="text-align:left;">Today</h4>
+          <nvd3-line-chart class="graph"
+            data="exampleData"
+            showXAxis="true"
+            showYAxis="true"
+            xAxisTickFormat="xAxisTickFormatFunction()">
+          </nvd3-line-chart>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- <p>
+  <b>From:</b> {{ data.source }} <br />
+  <ul>
+    <li class="sensor" ng-repeat="accel in data.payload.accels track by $index">
+      x:{{ accel.x }} <br />
+      y:{{ accel.y }} <br />
+      z:{{ accel.z }}
+    </li>
+  </ul>
+</p> -->
