@@ -34,8 +34,9 @@ MyApp.directive('model', [function(){
           function display() {
             //create de scene
             var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-            
+            var camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 1000);
+            camera.position.y = 0.3;
+
             renderer.setSize(400, 300);
             element[0].innerHTML = "";
             element[0].appendChild(renderer.domElement);
@@ -99,8 +100,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 1
             geometry_sensor1.vertices.push(
-              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.5),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.5)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -111,8 +112,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 2
             geometry_sensor2.vertices.push(
-              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.5),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.5)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -123,8 +124,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 3
             geometry_sensor3.vertices.push(
-              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.5),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.5)
             );
             startx = parseFloat(endx);
             starty = parseFloat(endy);
@@ -135,8 +136,8 @@ MyApp.directive('model', [function(){
 
             //Sensor 4
             geometry_sensor4.vertices.push(
-              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.3),
-              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.3)
+              new THREE.Vector3( -startx, -starty, startz ).multiplyScalar(0.5),
+              new THREE.Vector3( -endx, -endy, endz ).multiplyScalar(0.5)
             );
             //****************************** End: Define geometries
 
@@ -232,7 +233,7 @@ MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
     $scope.data = {};
     $scope.exampleData = [{
-        "key": "Series 1",
+        "key": "Your Posture",
         "values": []
     }];
     $scope.average = function(){
@@ -249,6 +250,12 @@ MyApp.controller("instanceCtrl", ["$scope", "mySocket",
     $scope.xAxisTickFormatFunction = function(){
         return function(d){
             return d3.time.format('%Hh %Mm %Ss')(moment.unix(d).toDate());
+        }
+    };
+
+    $scope.yAxisTickFormatFunction = function(){
+        return function(d){
+            return d + "%";
         }
     };
 
