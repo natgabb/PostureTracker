@@ -1,6 +1,20 @@
 <div class="left">
-  <p>Hello, this is a partial</p>
-  <p>
+  
+<!--   <nvd3-line-chart class="graph"
+    data="exampleData"
+    showXAxis="true"
+    showYAxis="true">
+  </nvd3-line-chart>
+</div> -->
+
+<model class="right"
+  accela="data.payload.accels[0]" 
+  accelb="data.payload.accels[1]" 
+  accelc="data.payload.accels[2]"
+  acceld="data.payload.accels[3]">
+</model>
+
+<p>
     <b>From:</b> {{ data.source }} <br />
     <ul>
       <li class="sensor" ng-repeat="accel in data.payload.accels track by $index">
@@ -10,16 +24,3 @@
       </li>
     </ul>
   </p>
-  <nvd3-line-chart class="graph"
-    data="exampleData"
-    showXAxis="true"
-    showYAxis="true">
-  </nvd3-line-chart>
-</div>
-
-<model class="right"
-  accela="data.payload.accels[0]" 
-  accelb="data.payload.accels[1]" 
-  accelc="data.payload.accels[2]"
-  acceld="data.payload.accels[3]">
-</model>

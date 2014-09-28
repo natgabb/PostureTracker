@@ -36,7 +36,7 @@ MyApp.directive('model', [function(){
             var camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+            renderer.setSize(400, 300);
             element[0].innerHTML = "";
             element[0].appendChild(renderer.domElement);
 
@@ -231,15 +231,15 @@ MyApp.controller("homeCtrl", ["$scope",
 MyApp.controller("instanceCtrl", ["$scope", "mySocket",
   function ($scope, mySocket) {
     $scope.data = {};
-    $scope.exampleData = [{
-        "key": "Series 1",
-        "values": []
-    }];
+    // $scope.exampleData = [{
+    //     "key": "Series 1",
+    //     "values": []
+    // }];
 
     mySocket.on('broadcast', function(data) {
       data.payload = JSON.parse(data.payload);
-      var temp = data.payload.accels[0];
-      $scope.exampleData[0]["values"].push([temp.x, temp.y]);
+      //var temp = data.payload.accels[0];
+      //$scope.exampleData[0]["values"].push([temp.x, temp.y]);
       $scope.data = data;
     });
   }
