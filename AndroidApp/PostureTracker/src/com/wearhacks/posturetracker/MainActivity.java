@@ -89,16 +89,19 @@ public class MainActivity extends Activity {
 
 			FrameLayout container = (FrameLayout) findViewById(R.id.container);
 			
-			if(ratingsAverage > 80) // GOOD
+			if(ratingsAverage > 75) // GOOD
 			{
-				container.setBackgroundColor(getResources().getColor(R.color.green));
+				//container.setBackgroundColor(getResources().getColor(R.color.green));
+				container.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_good));
 				
 			}else if(ratingsAverage < 61) // BAD
 			{
-				container.setBackgroundColor(getResources().getColor(R.color.red));
+				//container.setBackgroundColor(getResources().getColor(R.color.red));
+				container.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_bad));
 			}else{ // NEUTRAL
 
-				container.setBackgroundColor(getResources().getColor(R.color.yellow));
+				//container.setBackgroundColor(getResources().getColor(R.color.yellow));
+				container.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_neutral));
 			}
 	
 			if (timeOfLastRequestToServer == null)
@@ -109,7 +112,7 @@ public class MainActivity extends Activity {
 				timeOfLastRequestToServer = new Date();
 			}
 			
-			dataText.setText("" + time + "\n" + Arrays.toString(accels) +"\nRatings: " + Arrays.toString(ratings) + "\nRatings Average: " + ratingsAverage);
+			dataText.setText("\n\nTime: " + time + "\nAccels: " + Arrays.toString(accels) +"\nRatings: " + Arrays.toString(ratings) + "\nRatings Average: " + ratingsAverage);
 
 			// Setting request data
 			String accelsJson = "[";
