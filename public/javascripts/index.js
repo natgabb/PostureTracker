@@ -94,28 +94,59 @@ MyApp.directive('model', [function(){
             var s2 = scope.data.payload.accels[2];
             var s3 = scope.data.payload.accels[3];
 
+
+            var startx = 0.0
+              , starty = 0.0
+              , startz = 0.0
+              , endx = parseFloat(s0.x)
+              , endy = parseFloat(s0.y)
+              , endz = parseFloat(s0.z);
+
+            // console.log("Sensor 1");
+            // console.log("startx", startx, "endx", endx);
+            // console.log("starty", starty, "endy", endy);
+            // console.log("startz", startz, "endz", endz);
+
             //Sensor 1
             geometry_sensor1.vertices.push(
-              new THREE.Vector3( 0.0, 0.0, 0.0 ),
-              new THREE.Vector3( s0.x, s0.y, s0.z )
+              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
             );
+            startx = parseFloat(endx);
+            starty = parseFloat(endy);
+            startz = parseFloat(endz);
+            endx += parseFloat(s1.x);
+            endy += parseFloat(s1.y);
+            endz += parseFloat(s1.z);
 
             //Sensor 2
             geometry_sensor2.vertices.push(
-              new THREE.Vector3( s0.x, s0.y, s0.z ),
-              new THREE.Vector3( s1.x, s1.y, s1.z )
+              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
             );
+            startx = parseFloat(endx);
+            starty = parseFloat(endy);
+            startz = parseFloat(endz);
+            endx += parseFloat(s1.x);
+            endy += parseFloat(s1.y);
+            endz += parseFloat(s1.z);
 
             //Sensor 3
             geometry_sensor3.vertices.push(
-              new THREE.Vector3( s1.x, s1.y, s1.z ),
-              new THREE.Vector3( s2.x, s2.y, s2.z )
+              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
             );
+            startx = parseFloat(endx);
+            starty = parseFloat(endy);
+            startz = parseFloat(endz);
+            endx += parseFloat(s1.x);
+            endy += parseFloat(s1.y);
+            endz += parseFloat(s1.z);
 
             //Sensor 4
             geometry_sensor4.vertices.push(
-              new THREE.Vector3( s2.x, s2.y, s2.z ),
-              new THREE.Vector3( s3.x, s3.y, s3.z )
+              new THREE.Vector3( startx, starty, startz ).multiplyScalar(0.3),
+              new THREE.Vector3( endx, endy, endz ).multiplyScalar(0.3)
             );
             //****************************** End: Define geometries
 
@@ -146,20 +177,11 @@ MyApp.directive('model', [function(){
 
             //render the scene
             var render = function () {
-              requestAnimationFrame(render);
-
-              //Add rotation
-              ar = line_axis.rotation.y + 0.01;
-              s1r = line_sensor1.rotation.y + 0.01;
-              s2r = line_sensor2.rotation.y + 0.01;
-              s3r = line_sensor3.rotation.y + 0.01;
-              s4r = line_sensor4.rotation.y + 0.01;
-
-              line_axis.rotation.y = ar;
-              line_sensor1.rotation.y = s1r;
-              line_sensor2.rotation.y = s2r;
-              line_sensor3.rotation.y = s3r;
-              line_sensor4.rotation.y = s4r;
+              line_axis.rotation.y = 0.4;
+              line_sensor1.rotation.y = 0.4;
+              line_sensor2.rotation.y = 0.4;
+              line_sensor3.rotation.y = 0.4;
+              line_sensor4.rotation.y = 0.4;
 
               renderer.render(scene, camera);
             };
