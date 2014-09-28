@@ -33,10 +33,10 @@ MyApp.directive('model', [function(){
           function display() {
             //create de scene
             var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+            var camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
             element[0].innerHTML = "";
             element[0].appendChild(renderer.domElement);
 
@@ -96,11 +96,6 @@ MyApp.directive('model', [function(){
               , endx = parseFloat(s0.x)
               , endy = parseFloat(s0.y)
               , endz = parseFloat(s0.z);
-
-            // console.log("Sensor 1");
-            // console.log("startx", startx, "endx", endx);
-            // console.log("starty", starty, "endy", endy);
-            // console.log("startz", startz, "endz", endz);
 
             //Sensor 1
             geometry_sensor1.vertices.push(
@@ -182,11 +177,11 @@ MyApp.directive('model', [function(){
               requestAnimationFrame(render);
 
               //Add rotation
-              line_axis.rotation.y +=0.05;
-              line_sensor1.rotation.y +=0.05;
-              line_sensor2.rotation.y +=0.05;
-              line_sensor3.rotation.y +=0.05;
-              line_sensor4.rotation.y +=0.05;
+              line_axis.rotation.y +=0.01;
+              line_sensor1.rotation.y +=0.01;
+              line_sensor2.rotation.y +=0.01;
+              line_sensor3.rotation.y +=0.01;
+              line_sensor4.rotation.y +=0.01;
 			        oldYRotation = line_axis.rotation.y;
 			  
               renderer.render(scene, camera);
